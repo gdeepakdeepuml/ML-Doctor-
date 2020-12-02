@@ -1,4 +1,3 @@
-from fastai.vision import open_image,load_learner,image,torch
 import numpy as np
 import pickle
 import pandas as pd
@@ -20,7 +19,7 @@ def predict_function(to_predict_list, size):
         if result[0] == 1:
             return "sorry ! You are suffering from Liver damage "
         else:
-            return "stay Happy"
+            return "stay Happy! you have no Liver damage"
     elif size == 8:
         pickle_in = open("modelpik/model_diabetes.pkl","rb")
         model=pickle.load(pickle_in)
@@ -28,21 +27,21 @@ def predict_function(to_predict_list, size):
         if prediction_diabetes[0] == 1:
             return "sorry ! You aresuffering from Diabetes"
         else:
-            return "stay Happy"
+            return "stay Happy! you have no Diabetes"
     elif size == 5:
         loaded_model = joblib.load("modelpik/model_cancer")
         prediction_cancer = loaded_model.predict(to_predict)
         if prediction_cancer[0] == 1:
-            return "sorry ! You are suffering from cancer"
+            return "sorry ! You are suffering from Breast cancer"
         else:
-            return "stay Happy"
+            return "stay Happy! you have no Breast cancer "
     elif size == 11:
         loaded_model = joblib.load("modelpik/mode_heart")
         prediction_heart = loaded_model.predict(to_predict)
         if prediction_heart[0] == 1:
             return "sorry ! You are suffering from Heart Disease"
         else:
-            return "stay Happy"
+            return "stay Happy! you have no Heart Disease"
     elif size == 13:
         mymodel = open("modelpik/atlest_now.pkl", "rb")
         loaded_model = pickle.load(mymodel)
@@ -50,47 +49,16 @@ def predict_function(to_predict_list, size):
         if prediction_covid[0] == 1:
             return "sorry ! You are suffering from Covid-19"
         else:
-            return "stay Happy"
+            return "stay Happy !you have no Covid-19 "
     elif size == 12:
         loaded_model = joblib.load("modelpik/model_kidney")
         prediction_kidney = loaded_model.predict(to_predict)
         if prediction_kidney[0] == 1:
             return "sorry ! You are suffering from Kidney Disease"
         else:
-            return "stay Happy"
+            return "stay Happy !you have no Kidney Disease"
         
             
-
-def predict_chestx(img):
-    with st.spinner("wait for it .."):
-        time.sleep(3)
-    model = load_learner("modelpik/scan_chest/")
-    pred_class = model.predict(img)[0]
-    pred_prob = round(torch.max(model.predict(img)[2]).item()*100)
-    
-    if str(pred_class) == 'CORONA':
-        st.success(" the uploaded image is with COVID-19 with the probability of " + str(pred_prob) + '%.')
-    elif str(pred_class) == 'NORMAL':
-        st.success("the uploaded image is NORMAL with the probability of " + str(pred_prob) + '%.')   
-    else:
-        st.success(" the uploaded image is with PNEUMONIA with the probability of " + str(pred_prob) + '%.')
-    
-def predict_CTscan(img):
-    with st.spinner("wait for it .."):
-        time.sleep(3)
-    model = load_learner("modelpik/scan_ct/")
-    pred_class = model.predict(img)[0]
-    pred_prob = round(torch.max(model.predict(img)[2]).item()*100)
-    
-    if str(pred_class) == 'covid_ct':
-        st.success(" the uploaded image is with COVID-19 with the probability of " + str(pred_prob) + '%.')
-    else:
-        st.success(" the uploaded image is with NORMAL with the probability of " + str(pred_prob) + '%.')
-    
-    
-def load_img(file_name):
-	img = Image.open(file_name)
-	return st.image(img,width=300)
 
 
 def main():
@@ -100,13 +68,28 @@ def main():
     st.markdown(heading,unsafe_allow_html=True)
     mian_image = Image.open("images/AI-Medicine.png")
     st.image(mian_image,use_column_width=True)
-    
+    st.subheader("Details")
+    st.write("Welcome to the ML-Doctor a machine learning web app which can make the diagnosis of human diseases easy.")
+    st.write("This is mainly based on as the application of the machine learning,meant to be employed in the remote and the downtrodden area.")
     st.subheader("Overview")
     st.write("In todays time we see a lot of the shortage of the doctors in the world especially in India.A lot of people are suffering a lot without the help of the proper medical checkup.Also most of the cases many cases arise leading to dealth due to lack of timely medical checkup")
     st.write("So to cope up with all of those problems this app is designed which would prove its benefits upto much extent.")
-    
+    #st.markdown(html_temp_main,unsafe_allow_html=True)
+    st.write("-"*10)
+    html_main = """
+    <h3>Application:</h3>
+        <ul style="list-style-type:square"> 
+            <li>To remove the dependencies on the doctors</li>
+            <li>To help out the poor and helpless people with the normal medical checkup</li>
+            <li>To help people avoid paying huge amount to the doctors unnecessarily</li>
+            <li>To extend the role of the technology in the medical field</li>
+        </ul>
+    """
+    st.markdown(html_main,unsafe_allow_html=True)
+    st.write("-"*10)
+
     #option = st.radio("choose your test..",["Heart","Diabetes","Breast cancer","liver","kidney","Malaria","pneumonia"])
-	
+    st.write("Click on the Disease name to know about it and the process of diagnosis")
     with st.beta_expander("COVID-19 Diagnose"):
         html_temp_liver = """
         <hr style="width:100%;text-align:left;margin-left:0"><hr>
@@ -151,43 +134,29 @@ def main():
         st.markdown(html_covid_sysm,unsafe_allow_html=True)
         
         st.write("we have Three types of Test here. Covid Test with normal blood test report need blood test report and full the values in the given feilds and Covid Test with Scanings  needs the X-ray Scan of the Lung Or Scan ")
-        
-        option = st.radio("choose test by",['Covid Test With Normal blood Test Report','Covid Test with Chest(Lung) Scan','Covid Test with Lung CT Scan'])
-        if option == "Covid Test With Normal blood Test Report":
-            st.subheader("fill the follwing fileds for the testing process..")
-            Age_covid = st.text_input('Your Age')
-            WBC_count = st.text_input('WBC (Leukocyte Count)')
-            Neutrophils = st.text_input('Neutrophils')
-            Lymphocytes = st.text_input('Lymphocytes')
-            Monocytes = st.text_input('Monocytes')
-            Eosinophils = st.text_input('Eosinophils')
-            Basophils = st.text_input('Basophils')
-            Platelets = st.text_input('Platelets')
-            ALT = st.text_input('ALT (Alanine Amino Transferase)')
-            AST= st.text_input('AST (Aspartate Aminotransferase)')
-            Proteina_C = st.text_input('Proteina C reativa mg/dL')
-            LDH = st.text_input('LDH (Lactate Dehydrogenase)')
-            GGT = st.text_input('GGT (Gamma-Glutamyl Transferase)')
-            pre_list_covid = [Age_covid, WBC_count , Neutrophils , Lymphocytes, Monocytes, Eosinophils, Basophils, Platelets,ALT ,AST ,Proteina_C,LDH ,GGT]
-            result = ""
-            if st.button("Predict Covid"):
-                result = predict_function(pre_list_covid,len(pre_list_covid))    
-            st.subheader(result)
+        st.write("But out of all we will go with Covid Test with normal blood test report need blood test report")
+
+        st.subheader("fill the follwing fileds for the testing process..")
+        Age_covid = st.text_input('Your Age')
+        WBC_count = st.text_input('WBC (Leukocyte Count)')
+        Neutrophils = st.text_input('Neutrophils')
+        Lymphocytes = st.text_input('Lymphocytes')
+        Monocytes = st.text_input('Monocytes')
+        Eosinophils = st.text_input('Eosinophils')
+        Basophils = st.text_input('Basophils')
+        Platelets = st.text_input('Platelets')
+        ALT = st.text_input('ALT (Alanine Amino Transferase)')
+        AST= st.text_input('AST (Aspartate Aminotransferase)')
+        Proteina_C = st.text_input('Proteina C reativa mg/dL')
+        LDH = st.text_input('LDH (Lactate Dehydrogenase)')
+        GGT = st.text_input('GGT (Gamma-Glutamyl Transferase)')
+        pre_list_covid = [Age_covid, WBC_count , Neutrophils , Lymphocytes, Monocytes, Eosinophils, Basophils, Platelets,ALT ,AST ,Proteina_C,LDH ,GGT]
+        result = ""
+        if st.button("Predict Covid"):
+            result = predict_function(pre_list_covid,len(pre_list_covid))    
+        st.subheader(result)
+        st.markdown(html_temp_liver,unsafe_allow_html=True)
             
-        elif option == "Covid Test with Chest(Lung) Scan":
-            st.write("Lets try Covid Test with Chest(Lung) Scan")
-            image_fil = st.file_uploader("Use an image of a chest X-ray of COVID-19,PNEUMONIA, or NORMAL case",type=['jpg','png','jpeg']) 
-            if st.button("Analyze"):
-                load_img(image_fil)
-                img = open_image(image_fil)
-                predict_chestx(img)
-        else:
-            st.write("lets try Covid Test with Lung CT Scan")
-            image_file = st.file_uploader("Use an image of a CT Scan X-ray of COVID-19 or NORMAL case",type=['jpg','png','jpeg']) 
-            if st.button("Analyze"):
-                load_img(image_file)
-                img = open_image(image_file)
-                predict_CTscan(img)
             
     with st.beta_expander("Liver Disease"):
         html_temp_liver = """
@@ -237,6 +206,8 @@ def main():
             result = predict_function(pre_list,len(pre_list))    
             
         st.subheader(result)
+        st.markdown(html_temp_liver,unsafe_allow_html=True)
+        
     with st.beta_expander("Diabetes Disease"):
         
         html_temp_liver = """
@@ -289,6 +260,8 @@ def main():
             result=predict_function(pre_list_diabetes,len(pre_list_diabetes))
         
         st.subheader(result)
+        st.markdown(html_temp_liver,unsafe_allow_html=True)
+        
         
     with st.beta_expander("Breast Cancer Disease"):
         
@@ -336,6 +309,8 @@ def main():
             result=predict_function(pre_list_cancer,len(pre_list_cancer))
         
         st.subheader(result)
+        st.markdown(html_temp_liver,unsafe_allow_html=True)
+        
             
     with st.beta_expander("Heart Disease"):
         html_temp_liver = """
@@ -387,6 +362,8 @@ def main():
                 result=predict_function(pre_list_cancer,len(pre_list_cancer))
             
         st.subheader(result)
+        st.markdown(html_temp_liver,unsafe_allow_html=True)
+        
     
     with st.beta_expander("Kidney Disease"):
         html_temp_liver = """
@@ -448,10 +425,12 @@ def main():
                 result=predict_function(pre_list_kidney,len(pre_list_kidney))
             
         st.subheader(result)
+        st.markdown(html_temp_liver,unsafe_allow_html=True)
+        
         
 
     
-    ######################
+    #####################
     st.subheader("Creator:")
     st.write('G Deepak')
     st.write('Aspiring Data Scientist')
