@@ -21,5 +21,12 @@ machine learning based web app for easy Diagnosis
 <li><p><b>HTML</b></p></li>
 </ul>
 
+<hr>
+
+
+  <p> The whole project is deployed on Heroku Cloud.
+  
+ <p> Here is the link where you can access the project live : https://ml-doctor-a.herokuapp.com/ <p>
+  <p> Thank you!</p>
 
 
