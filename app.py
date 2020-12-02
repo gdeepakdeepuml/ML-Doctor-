@@ -177,7 +177,7 @@ def main():
         
         st.subheader("Symptoms")
         st.write("Classic symptoms of liver disease include:")
-        html_temp_liver = """
+        html_temp_liver_ = """
 	    <h4>Classic symptoms of liver disease include:</h4> 
         <ul> 
             <li>nausea</li>
@@ -186,7 +186,7 @@ def main():
             <li>aundice (a yellow discoloration of the skin due to elevated bilirubin concentrations in the bloodstream).</li>
         </ul>
 	    """ 
-        st.markdown(html_temp_liver,unsafe_allow_html=True)
+        st.markdown(html_temp_liver_,unsafe_allow_html=True)
         st.subheader("fill the follwing filed for the test process ..!")
         Age_liver = st.text_input("Age")
         Gender = st.text_input("Gender (0 of female and 1 if male)")
