@@ -152,8 +152,16 @@ def main():
         GGT = st.text_input('GGT (Gamma-Glutamyl Transferase)')
         pre_list_covid = [Age_covid, WBC_count , Neutrophils , Lymphocytes, Monocytes, Eosinophils, Basophils, Platelets,ALT ,AST ,Proteina_C,LDH ,GGT]
         result = ""
+        #print(pre_list_covid)
+        flage = True
         if st.button("Predict Covid"):
-            result = predict_function(pre_list_covid,len(pre_list_covid))    
+            for i in range(len(pre_list_covid)):
+                if pre_list_covid[i] == '':
+                    st.subheader("Fill the form correctly")
+                    flage = False 
+                    break
+            if flage :    
+                result = predict_function(pre_list_covid,len(pre_list_covid))    
         st.subheader(result)
         st.markdown(html_temp_liver,unsafe_allow_html=True)
             
@@ -177,7 +185,7 @@ def main():
         
         st.subheader("Symptoms")
         st.write("Classic symptoms of liver disease include:")
-        html_temp_liver_ = """
+        html_temp_liver = """
 	    <h4>Classic symptoms of liver disease include:</h4> 
         <ul> 
             <li>nausea</li>
@@ -186,7 +194,7 @@ def main():
             <li>aundice (a yellow discoloration of the skin due to elevated bilirubin concentrations in the bloodstream).</li>
         </ul>
 	    """ 
-        st.markdown(html_temp_liver_,unsafe_allow_html=True)
+        st.markdown(html_temp_liver,unsafe_allow_html=True)
         st.subheader("fill the follwing filed for the test process ..!")
         Age_liver = st.text_input("Age")
         Gender = st.text_input("Gender (0 of female and 1 if male)")
@@ -202,8 +210,15 @@ def main():
         pre_list = [Age_liver,Gender,Total_Bilirubin,Direct_Bilirubin,Alkaline_Phosphotase,Alamine_Aminotransferase,Aspartate_Aminotransferase,Total_Protiens,Albumin,Albumin_and_Globulin_Ratio]
 
         result = ""
+        flage = True 
         if st.button("Predict"):
-            result = predict_function(pre_list,len(pre_list))    
+            for i in range(len(pre_list)):
+                if pre_list[i] == '':
+                    st.subheader("Fill the form correctly")
+                    flage = False 
+                    break
+            if flage:
+                result = predict_function(pre_list,len(pre_list))    
             
         st.subheader(result)
         st.markdown(html_temp_liver,unsafe_allow_html=True)
@@ -256,8 +271,15 @@ def main():
         result=""
         # done we got all the user inputs to predict and we need a button like a predict button we do that by "st.button()"
         # after hitting the button the prediction process will go on and then we print the success message by "st.success()"
+        flage = True
         if st.button("Predict diabetes"):
-            result=predict_function(pre_list_diabetes,len(pre_list_diabetes))
+            for i in range(len(pre_list_diabetes)):
+                if pre_list_diabetes[i] == '':
+                    st.subheader("Fill the form correctly")
+                    flage = False 
+                    break
+            if flage:
+                result=predict_function(pre_list_diabetes,len(pre_list_diabetes))
         
         st.subheader(result)
         st.markdown(html_temp_liver,unsafe_allow_html=True)
@@ -305,8 +327,15 @@ def main():
         result=""
         # done we got all the user inputs to predict and we need a button like a predict button we do that by "st.button()"
         # after hitting the button the prediction process will go on and then we print the success message by "st.success()"
+        flage = True
         if st.button("Predict Breast Cancer"):
-            result=predict_function(pre_list_cancer,len(pre_list_cancer))
+            for i in range(len(pre_list_cancer)):
+                if pre_list_cancer[i] == '':
+                    st.subheader("Fill the form correctly")
+                    flage = False 
+                    break
+            if flage:
+                result=predict_function(pre_list_cancer,len(pre_list_cancer))
         
         st.subheader(result)
         st.markdown(html_temp_liver,unsafe_allow_html=True)
@@ -358,8 +387,15 @@ def main():
         result=""
             # done we got all the user inputs to predict and we need a button like a predict button we do that by "st.button()"
             # after hitting the button the prediction process will go on and then we print the success message by "st.success()"
+        flage = True
         if st.button("Predict Heart Disease "):
-                result=predict_function(pre_list_cancer,len(pre_list_cancer))
+            for i in range(len(pre_list_cancer)):
+                if pre_list_cancer[i] == '':
+                    st.subheader("Fill the form correctly")
+                    flage = False 
+                    break
+                if flage:
+                    result=predict_function(pre_list_cancer,len(pre_list_cancer))
             
         st.subheader(result)
         st.markdown(html_temp_liver,unsafe_allow_html=True)
@@ -421,7 +457,14 @@ def main():
         result=""
             # done we got all the user inputs to predict and we need a button like a predict button we do that by "st.button()"
             # after hitting the button the prediction process will go on and then we print the success message by "st.success()"
+        flage = True
         if st.button("Predict Kidney Disease "):
+            for i in range(len(pre_list_kidney)):
+                if pre_list_kidney[i] == '':
+                    st.subheader("Fill the form correctly")
+                    flage = False 
+                    break
+            if flage:
                 result=predict_function(pre_list_kidney,len(pre_list_kidney))
             
         st.subheader(result)
